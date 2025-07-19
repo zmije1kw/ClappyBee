@@ -127,10 +127,13 @@ actual class AudioPlayer {
     }
 
     private fun loadAudioFile(fileName: String): ByteArray {
-        val resourcePath = Paths.get("src/commonMain/composeResources/files/$fileName")
-        if (!Files.exists(resourcePath)) {
-            throw FileNotFoundException("Resource not found: $resourcePath")
-        }
-        return FileInputStream(resourcePath.toFile()).use { it.readBytes() }
+        val resourceStream = this::class.java.classLoader?.getResourceAsStream("composeResources/clappybee.composeapp.generated.resources/files/$fileName")
+            ?: throw FileNotFoundException("Resource not found: files/$fileName")
+        return resourceStream.use { it.readBytes() }
+//        val resourcePath = Paths.get("src/commonMain/composeResources/files/$fileName")
+//        if (!Files.exists(resourcePath)) {
+//            throw FileNotFoundException("Resource not found: $resourcePath")
+//        }
+//        return FileInputStream(resourcePath.toFile()).use { it.readBytes() }
     }
 }
